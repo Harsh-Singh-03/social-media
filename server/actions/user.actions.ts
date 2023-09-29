@@ -4,6 +4,7 @@ import { FilterQuery, SortOrder } from "mongoose";
 import Thread from "../models/thread.model";
 import User from "../models/user.model";
 import { connectToDB } from "../mongoose"
+import { revalidatePath } from "next/cache";
 
 interface Params {
     userId: string;
@@ -36,6 +37,17 @@ export const updateUser = async ({
         console.log(error)
     }
 
+}
+export const updateUserBySync = async (id: string, username: any, path: any )=>{
+  try {
+    connectToDB()
+    await User.findOneAndUpdate({id: id},{
+      username: username.toLowerCase(),
+      onboarded: true,})
+      revalidatePath(path)
+  } catch (error: any) {
+    console.log(error)
+  }
 }
 
 export const fetchUser = async (id : string): Promise<any>=> {

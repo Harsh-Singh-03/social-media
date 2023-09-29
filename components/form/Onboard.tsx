@@ -3,6 +3,7 @@ import { updateUser } from "@/server/actions/user.actions"
 import { useUploadThing } from "@/server/uploadthing"
 import { usePathname,useRouter } from "next/navigation"
 import { useState } from "react"
+import { useToast } from "../ui/use-toast"
 
 // will create interface to avoid use any : or Will create database and send data to it
 
@@ -10,6 +11,7 @@ const Onboard = (props: any) => {
     const pathname = usePathname()
     const router = useRouter()
     const {startUpload} = useUploadThing("media")
+    const {toast} = useToast()
     const [Files, setFiles] = useState<File[]>([]);
     const [profileData, setProfileData] = useState({name: props.user.name,username: props.user.username, bio: props.user.bio} )
 
@@ -59,6 +61,7 @@ const Onboard = (props: any) => {
                     bio: profileData.bio || "",
                     image: fileUrl
                 });
+                toast({title: "Welcome"})
                 router.push("/")
             }else{
                 alert("Check name and username field")

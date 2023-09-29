@@ -22,8 +22,10 @@ export default function RootLayout({
       baseTheme: dark
     }}>
       <html lang="en">
-        <body className={`${inter.className} bg-dark-1`}>{children}</body>
-        <Toaster />
+        <body className={`${inter.className} bg-dark-1`}>
+          {children}
+          <Toaster />
+        </body>
       </html>
     </ClerkProvider>
   )

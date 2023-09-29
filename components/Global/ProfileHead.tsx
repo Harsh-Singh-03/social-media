@@ -27,7 +27,7 @@ const ProfileHead = ({
                     </div>
                 </div>
                 {accountId === authUserId && (
-                    <Link href='/profile/edit'>
+                    <Link href={`/profile/edit/${authUserId}`}>
                         <div className='flex cursor-pointer gap-3  rounded-lg px-4 py-2 min-w-max bg-dark-3'>
                             <Image
                                 src='/assets/edit.svg'
