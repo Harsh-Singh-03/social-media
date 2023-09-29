@@ -14,7 +14,7 @@
 
 # production
 /build
-
+Todo.text
 # misc
 .DS_Store
 *.pem

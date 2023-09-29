@@ -2,26 +2,93 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+@layer components {
+  .form-container{
+    @apply w-full flex flex-col gap-4 max-w-xl
+  }
+  .form-group{
+    @apply flex flex-col gap-4
+  }
+  .input{
+    @apply text-light-1 text-small-regular lg:text-body-normal outline-primary-500 rounded-lg bg-dark-4 px-2 h-10
+  }
+  .label{ 
+    @apply text-light-1 text-small-regular lg:text-body-normal md:text-body-normal
+  }
+  .btn{
+    @apply text-light-1 text-small-semibold md:text-body-medium bg-primary-500 rounded-lg py-2 mt-2 cursor-pointer hover:bg-purple-600
+  }
+  .profile-box{
+    @apply w-full flex gap-4 items-center
+  }
+  .profile-img-box{
+    @apply relative w-14 h-14 lg:w-20 lg:h-20 rounded-full object-cover
+  }
+  .profile-name{
+    @apply text-left text-body-semibold lg:text-heading3-bold text-light-1 tracking-wider
+  }
+  .floating-btn{
+    @apply text-light-1 text-small-regular lg:text-base-regular cursor-pointer
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+@layer utilities {
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+    border-radius: 2px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #09090a;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #5c5c7b;
+    border-radius: 50px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #7878a3;
+  }
+}
+  .css-invert {
+    @apply invert-[50%] brightness-200;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+    border-radius: 2px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #09090a;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #5c5c7b;
+    border-radius: 50px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #7878a3;
+  }
+
+
+.cl-internal-1ntkffu{
+  @apply hidden
+}
+.cl-internal-1jszspb{
+  @apply gap-0 sm:gap-4
+}
+.cl-internal-1ho4xv{
+   @apply hidden sm:block
+}
+.cl-internal-1w67h8a .cl-internal-1ho4xv{
+  @apply block !important
+}
+.data-\[state\=active\]\:bg-white[data-state=active]{
+  background: #0e0e12 !important;
+  color: #fff !important;
 }
