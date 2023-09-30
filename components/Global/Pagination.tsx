@@ -1,15 +1,17 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 interface Props {
   pageNumber: number;
   isNext: boolean;
   path: string;
+  search: string | undefined
 }
 
-function Pagination({ pageNumber, isNext, path }: Props) {
+function Pagination({ pageNumber, isNext, path, search }: Props) {
   const router = useRouter();
+
 
   const handleNavigation = (type: string) => {
     let nextPageNumber = pageNumber;
@@ -21,9 +23,17 @@ function Pagination({ pageNumber, isNext, path }: Props) {
     }
 
     if (nextPageNumber > 1) {
-      router.push(`/${path}?page=${nextPageNumber}`);
+       if(search){
+         router.push(`${path}?page=${nextPageNumber}&q=${search}`);
+       }else{
+         router.push(`${path}?page=${nextPageNumber}`);
+       }
     } else {
-      router.push(`/${path}`);
+      if(search){
+        router.push(`${path}?q=${search}`);
+      }else{
+        router.push(`${path}`);
+      }
     }
   };
 

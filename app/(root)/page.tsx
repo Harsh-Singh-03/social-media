@@ -46,6 +46,7 @@ export default async function Home({
 
       <Pagination
         path='/'
+        search={undefined}
         pageNumber={searchParams?.page ? +searchParams.page : 1}
         isNext={postResult.isNext}
       />

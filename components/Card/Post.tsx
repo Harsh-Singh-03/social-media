@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/popover"
 import DeleteThread from "../Global/DeleteThread";
 import EditThread from "../Global/EditThread";
+import Share from "../Global/Share";
 
 
 
@@ -52,6 +53,7 @@ const Post = ({
     // Using toLocaleString() with custom options for a specific format
     const options: any = { day: 'numeric', month: 'long', year: 'numeric' };
     const customDateString = mongodbDate.toLocaleString('en-US', options);
+
     return (
         <article className={`relative rounded-lg  ${isComment === false ? "bg-dark-2 p-4 lg:p-7" : "pl-2 lg:pl-4"} w-full`}>
             {author.id === currentUserId && (
@@ -102,20 +104,14 @@ const Post = ({
                                     className='cursor-pointer object-contain'
                                 />
                             </Link>
-                            <Image
+                            {/* <Image
                                 src='/assets/repost.svg'
                                 alt='heart'
                                 width={24}
                                 height={24}
                                 className='cursor-pointer object-contain'
-                            />
-                            <Image
-                                src='/assets/share.svg'
-                                alt='heart'
-                                width={24}
-                                height={24}
-                                className='cursor-pointer object-contain'
-                            />
+                            /> */}
+                          <Share id={id} content={content} />
                         </div>
                     )}
                     {isComment && comments.length > 0 && (
