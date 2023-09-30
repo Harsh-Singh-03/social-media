@@ -26,7 +26,7 @@ const Comment = ({threadId,commentId,IsReply, currentUserId, currentUserImg }: p
            console.log(data)
            setComment("")
            toast({
-            title: IsReply === true ? "Reply Added !!" : "Comment Added :"
+            title: IsReply === true ? "Reply Added !!" : "Comment Added !!"
            })
         }
     }

@@ -18,23 +18,26 @@ const page = async () => {
           {notification.map((activity) => (
             <Link key={activity._id} href={activity.parentCommentId ? `/thread/${activity.parentCommentId}` : `/thread/${activity.parentId}`}>
               <article className='flex px-4 py-3 lg:py-4 lg:px-6 bg-dark-2 gap-2 rounded'>
-                <Image
-                  src={activity.author.image}
-                  alt='user_logo'
-                  width={20}
-                  height={20}
-                  className='rounded-full object-cover'
-                />
+                <div>
+                  <Image
+                    src={activity.author.image}
+                    alt='user_logo'
+                    width={24}
+                    height={24}
+                    className='rounded-full object-cover'
+                  />
+
+                </div>
                 <p className='!text-small-regular text-light-1'>
                   <span className='mr-1 text-primary-500'>
                     {activity.author.name}
                   </span>{" "}
-                  replied to your {activity.parentCommentId ? "comment" : "thread"} 
+                  replied to your {activity.parentCommentId ? "comment" : "thread"}
                 </p>
               </article>
             </Link>
           ))}
-        </> : <p className="text-small-regular text-center text-gray-1">No User Found</p>}
+        </> : <p className="text-small-regular text-center text-gray-1">Does not have any activity &#128533;</p>}
 
     </section>
   )

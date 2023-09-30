@@ -63,45 +63,46 @@ export const fetchPosts = async(pageNumber = 1, pageSize = 10) =>{
     }
 }
 // TODO : To learn about everything in populate
-export const fetchThread = async(id: string) =>{
+export const fetchThread = async (id: string) => {
     try {
-        connectToDB()
-
-        const postQuery = await Thread.findById(id)
+      connectToDB();
+  
+      const postQuery = await Thread.findById(id)
         .populate({
-            path: "author",
-            model: User,
-            select: "_id id name image",
-          }) 
-          .populate({
-            path: "children", // Populate the children field
-            populate:  [
-                {
-                  path: "author", // Populate the author field within children
-                  model: User,
-                  select: "_id id name parentId image", // Select only _id and username fields of the author
-                },
-                {
-                  path: "children", // Populate the children field within children
-                  model: Thread, // The model of the nested children (assuming it's the same "Thread" model)
-                  populate: {
-                    path: "author", // Populate the author field within nested children
-                    model: User,
-                    select: "_id id name parentId image", // Select only _id and username fields of the author
-                  },
-                },
-              ],
-          }).exec()
-        //   .populate({
-        //     path: "community",
-        //     model: Community,
-        //   })
-        return postQuery;
-        
+          path: "author",
+          model: User,
+          select: "_id id name image",
+        })
+        .populate({
+          path: "children",
+          options: {
+            sort: { createdAt: -1 }, // Sort children by createdAt in descending order (newest first)
+          },
+          populate: [
+            {
+              path: "author",
+              model: User,
+              select: "_id id name parentId image",
+            },
+            {
+              path: "children",
+              model: Thread,
+              populate: {
+                path: "author",
+                model: User,
+                select: "_id id name parentId image",
+              },
+            },
+          ],
+        })
+        .exec();
+  
+      return postQuery;
     } catch (error: any) {
-        console.log(error)
+      console.log(error);
     }
-}
+  };
+  
 
 export const addComment = async (threadId: string,commentId: string, comment: string, userId: string, path: string) =>{
     try {

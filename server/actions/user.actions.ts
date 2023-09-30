@@ -22,7 +22,7 @@ export const updateUser = async ({
     path,
     username,
     image,
-  }: Params): Promise<void>=> {
+  }: Params)=> {
     try {
         connectToDB()
         await User.findOneAndUpdate({id: userId},{
@@ -32,19 +32,29 @@ export const updateUser = async ({
             image,
             onboarded: true,
           }, {upsert: true})
-        console.log(path)
+        if(path === `/profile/edit/${userId}`){
+          revalidatePath(path)
+        }
+        return {success: true}
     } catch (error) {
         console.log(error)
     }
-
 }
-export const updateUserBySync = async (id: string, username: any, path: any )=>{
+interface syncUser{
+  id: string,
+  username: string | null,
+  image: string | null,  
+  path: string
+}
+export const updateUserBySync = async ({id, username, image,  path }: syncUser)=>{
   try {
     connectToDB()
     await User.findOneAndUpdate({id: id},{
-      username: username.toLowerCase(),
-      onboarded: true,})
-      revalidatePath(path)
+      username: username?.toLowerCase(),
+      image: image,
+      onboarded: true
+    })
+    revalidatePath(path)
   } catch (error: any) {
     console.log(error)
   }

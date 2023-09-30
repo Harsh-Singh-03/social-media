@@ -53,9 +53,9 @@ export async function POST(req: Request) {
   const eventType = evt.type;
  
   if(eventType === "user.updated"){
-    const { id, username } = evt.data;
+    const { id, username, image_url } = evt.data;
     try {
-      await updateUserBySync(id, username, `/profile/edit/${id}`)
+      await updateUserBySync({id, username, image: image_url, path:`/profile/edit/${id}`})
       return NextResponse.json({ message: "User Updated" }, { status: 201 });
     } catch (error: any) {
       return NextResponse.json(

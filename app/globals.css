@@ -4,7 +4,7 @@
 
 @layer components {
   .form-container{
-    @apply w-full flex flex-col gap-4 max-w-xl
+    @apply w-full flex flex-col gap-4 max-w-xl bg-dark-2 p-4 lg:p-6 rounded-xl
   }
   .form-group{
     @apply flex flex-col gap-4
@@ -91,4 +91,23 @@
 .data-\[state\=active\]\:bg-white[data-state=active]{
   background: #0e0e12 !important;
   color: #fff !important;
+}
+.user-advance-edit .cl-rootBox{
+  width: 100% !important;
+}
+.user-advance-edit .cl-pageScrollBox{
+  @apply p-4 lg:p-6
+}
+.cl-internal-b3fm6y{
+  display: none !important;
+}
+.user-advance-edit .cl-internal-1ee916m{
+  width: 100% !important;
+  margin: auto 0px !important;
+  max-width: 100%;
+}
+@media (max-width: 600px) {
+  .user-advance-edit .cl-card{
+    max-width: calc(100vw - 2rem);
+  }
 }
