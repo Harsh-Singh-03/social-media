@@ -22,6 +22,7 @@ export default function RootLayout({
       baseTheme: dark
     }}>
       <html lang="en">
+       <meta name="theme-color" content="#121417" />
         <body className={`${inter.className} bg-dark-1`}>
           {children}
           <Toaster />
