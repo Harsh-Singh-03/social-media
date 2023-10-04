@@ -12,6 +12,7 @@ import { useState } from "react"
 import { useToast } from "../ui/use-toast"
 import { DialogClose } from "@radix-ui/react-dialog"
 import Image from "next/image"
+import { useLoader } from "../ui/LoaderContext"
 
 interface props {
     id: string,
@@ -21,14 +22,16 @@ const EditThread = ({ id, text }: props) => {
     const [textInput, setTextInput] = useState(text)
     const path = usePathname()
     const { toast } = useToast()
+    const { showLoader, hideLoader }: any = useLoader();
     const onchange = (e: any) => {
         setTextInput(e.target.value)
     }
     const update = async (e: any) => {
         e.preventDefault()
         if (text !== textInput) {
+            showLoader()
             const Data = await editThread(id, textInput, path)
-            console.log(Data)
+            hideLoader()
             toast({
                 title: "Thread Updated !!"
             })

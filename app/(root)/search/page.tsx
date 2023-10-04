@@ -23,15 +23,18 @@ const page = async ({
       <UserMenu avatar={userInfo.image} url={userInfo.id} userId={userInfo._id} />
       <SearchBar path="/search" />
       {result?.users.length === 0 ? <p className="text-small-regular text-center text-gray-1">No User Found</p> :
-        result?.users.map(person => {
+        result?.users.map((person, index) => {
           return (
-            <ProfileCard
-              key={person.id}
-              id={person.id}
-              name={person.name}
-              username={person.username}
-              imageUrl={person.image}
-              personType='User' />
+            <>
+              <ProfileCard
+                key={person.id}
+                id={person.id}
+                name={person.name}
+                username={person.username}
+                imageUrl={person.image}
+                personType='User' />
+              {result.users.length !== (index + 1) ? <span className="w-full h-0.5 bg-dark-4"></span> : <></>}
+            </>
           )
         })
       }

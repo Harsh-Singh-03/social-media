@@ -5,6 +5,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react"
 import { useToast } from "../ui/use-toast";
+import { useLoader } from "../ui/LoaderContext";
 interface props{
     threadId : string;
     commentId: string;
@@ -17,14 +18,17 @@ const Comment = ({threadId,commentId,IsReply, currentUserId, currentUserImg, com
     const pathname = usePathname()
     const [comment, setComment] = useState("")
     const {toast} = useToast()
+    const { showLoader, hideLoader }: any = useLoader();
     const onchange = (e: any) =>{
         setComment(e.target.value)
     }
     const handleSubmit = async(e: any) =>{
         e.preventDefault()
         if(comment){
+           showLoader()
            const data = await addComment(threadId,commentId, comment,currentUserId, pathname,community)
            setComment("")
+           hideLoader()
            toast({
             title: IsReply === true ? "Reply Added !!" : "Comment Added !!"
            })

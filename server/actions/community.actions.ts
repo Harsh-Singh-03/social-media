@@ -66,8 +66,9 @@ export const removeMember = async (adminId: string, userId: string, communityId:
         connectToDB()
         const community = await Community.findById(communityId)
         const user = await User.findById(userId)
+        
         if (type === "kick") {
-            if (!community || community.createdBy !== adminId || !user) throw new Error("not found")
+            if (!community || community.createdBy.toString() !== adminId.toString() || !user) throw new Error("not found")
         } else {
             if (!community || !user) throw new Error("not found")
         }
@@ -97,7 +98,7 @@ export const getCommunity = async (id: string, userId: string) => {
             .populate({
                 path: "members", // Specify the path to populate
                 model: User,
-                select: "name id image username", // Select the fields you want from the Community model
+                select: "name _id id image username", // Select the fields you want from the Community model
             }).exec()
         if (!Data) throw new Error("Not Found")
         const isMember = Data.members.some((member: any) => member._id.equals(userId));
@@ -158,7 +159,6 @@ export async function fetchCommunities({
     sortBy?: SortOrder;
   }) {
     try {
-     console.log(pageNumber)
       connectToDB();
   
       // Calculate the number of communities to skip based on the page number and page size.

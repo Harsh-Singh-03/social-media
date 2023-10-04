@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
+import { useLoader } from "../ui/LoaderContext";
 
 interface Props {
   pageNumber: number;
@@ -12,10 +13,11 @@ interface Props {
 function Pagination({ pageNumber, isNext, path, search }: Props) {
   const router = useRouter();
 
+  const {showLoader, hideLoader}: any = useLoader()
 
   const handleNavigation = (type: string) => {
     let nextPageNumber = pageNumber;
-
+    showLoader()
     if (type === "prev") {
       nextPageNumber = Math.max(1, pageNumber - 1);
     } else if (type === "next") {
@@ -35,6 +37,7 @@ function Pagination({ pageNumber, isNext, path, search }: Props) {
         router.push(`${path}`);
       }
     }
+    hideLoader()
   };
 
   if (!isNext && pageNumber === 1) return null;

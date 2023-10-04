@@ -33,6 +33,7 @@ interface Props {
     }[];
     isComment?: boolean;
     isReply?: boolean;
+    image?: string | undefined | null
 }
 const Post = ({
     id,
@@ -44,7 +45,8 @@ const Post = ({
     createdAt,
     comments,
     isComment,
-    isReply
+    isReply,
+    image
 }: Props) => {
     let mongodbDate = new Date(createdAt)
     // Using toLocaleString() with custom options for a specific format
@@ -82,7 +84,16 @@ const Post = ({
                     <Link href={`/profile/${author.id}`} className="w-fit">
                         <h4 className="text-light-1 text-small-regular lg:text-base-medium cursor-pointer tracking-wider">{author.name}</h4>
                     </Link>
-                    <p className='mt-2 text-subtle-medium sm:text-small-regular text-light-2 tracking-wider'>{content}</p>
+                    {/* TODO */}
+                    <div className="flex flex-col sm:flex-row sm:gap-6">
+                    {image && (
+                        <div className="w-full sm:w-[35%] sm:min-w-[35%] mt-4 object-contain">
+                            <Image src={image} alt="post" width={300} height={100}  className="w-full h-auto object-contain"/>
+                        </div>
+                    )}
+                    <p className={`mt-2 text-subtle-medium sm:text-small-regular text-light-2 tracking-wider ${image && 'sm:mt-8'}`}>{content}</p>
+
+                    </div>
                     {isReply !== true && (
                         <div className={`flex gap-3.5 mt-3 ${isComment && comments.length === 0 && "pb-4 lg:pb-7"}`}>
                             <Image

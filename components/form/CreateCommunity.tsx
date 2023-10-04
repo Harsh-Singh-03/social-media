@@ -7,6 +7,7 @@ import { useToast } from "../ui/use-toast"
 import { DialogFooter } from "../ui/dialog"
 import { DialogClose } from "@radix-ui/react-dialog"
 import { usePathname } from "next/navigation"
+import { useLoader } from "../ui/LoaderContext"
 
 
 interface props {
@@ -15,6 +16,7 @@ interface props {
 const CreateCommunity = ({ userId }: props) => {
     const [communityData, setCommunityData] = useState({ name: "", bio: "", username: "" })
     const [Files, setFiles] = useState([])
+    const { showLoader, hideLoader }: any = useLoader();
     const [Img, setImg] = useState('/assets/community.svg')
     const { startUpload } = useUploadThing("media")
     const { toast } = useToast()
@@ -26,7 +28,6 @@ const CreateCommunity = ({ userId }: props) => {
         if (e.target.files && e.target.files.length > 0) {
             const file = e.target.files[0]
             var filesize = ((file.size / 1024) / 1024).toFixed(4)
-            console.log(parseFloat(filesize))
             if (parseFloat(filesize) < 2) {
                 setFiles(Array.from(e.target.files))
                 const reader: any = new FileReader();
@@ -49,6 +50,7 @@ const CreateCommunity = ({ userId }: props) => {
                 if(communityData.name.includes("|")){
                     toast({title: "Name can not contain '|' ,"})
                 }else{
+                    showLoader()
                     var fileEl = '/assets/community.svg';
                     
                     if (Files && Files.length > 0) {
@@ -66,11 +68,11 @@ const CreateCommunity = ({ userId }: props) => {
                         image: fileEl,
                         path
                     });
+                    hideLoader()
                     if (data?.success) {
                         setCommunityData({ name: "", username: "", bio: "" })
                         setImg('/assets/community.svg')
                         toast({ title: data.message })
-                        console.log(data)
                         document.getElementById("form-close")?.click()
                     }
                 }

@@ -38,6 +38,7 @@ export default async function Home({
                   createdAt={post.createdAt}
                   comments={post.children}
                   isComment={false}
+                  image={post.image}
                 />
 
               )

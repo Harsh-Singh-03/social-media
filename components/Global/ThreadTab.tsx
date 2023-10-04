@@ -43,6 +43,7 @@ const ThreadTab = async({
           }
           createdAt={thread.createdAt}
           comments={thread.children}
+          image={thread.image}
           isComment= {false}
         />
       )): <p className="text-small-regular text-center text-gray-1">Post not found</p>}

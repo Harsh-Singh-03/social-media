@@ -1,9 +1,12 @@
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
 
 const threadSchema = new mongoose.Schema({
   text:{
     type: String,
     required: true
+  },
+  image:{
+    type: String,
   },
   author: {
     type: mongoose.Schema.Types.ObjectId,

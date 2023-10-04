@@ -16,6 +16,7 @@ const page = async ({ params }: { params: { id: string } }) => {
   return (
     <div className="grid place-items-center gap-6 lg:gap-10">
         <UserMenu avatar={userInfo.image} url={userInfo.id} userId={userInfo._id} />
+        <h1 className="text-light-1">Not completed</h1>
     </div>
   )
 }

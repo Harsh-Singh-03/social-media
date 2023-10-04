@@ -87,7 +87,7 @@ const page = async ({ params }: { params: { id: string } }) => {
                         <div className="mt-6 lg:mt-10 p-4 lg:p-7 flex flex-col gap-4 lg:gap-7 bg-dark-2 rounded-lg border border-dark-4">
                             {Data && Data.members.length > 0 ? Data.members.map((member: any, index: number) => (
                                 <>
-                                    <ProfileCard id={member.id} name={member.name} username={member.username} imageUrl={member.image} personType="User" />
+                                    <ProfileCard id={member.id} name={member.name} username={member.username} imageUrl={member.image} isAdmin={Data.createdBy.toString() === member._id.toString() ? false : isCommunity} personType="User" adminId={userInfo._id} communityId={Data._id} memberId={member._id} />
                                     {Data.members.length !== (index + 1) ? <span className="w-full h-0.5 bg-dark-4"></span> : <></>}
                                 </>
                             )) : <p className="text-small-regular text-center text-gray-1">No communities found</p>}

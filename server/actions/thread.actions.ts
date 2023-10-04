@@ -7,15 +7,17 @@ import Community from "../models/community.model";
 
 interface Params {
   text: string;
+  image?: string | undefined | null 
   author: string;
   communityId: string | null;
   path: string;
 }
-export const postThread = async ({ text, author, communityId, path }: Params) => {
+export const postThread = async ({ text,image, author, communityId, path }: Params) => {
   try {
     connectToDB()
     const ThreadData = await Thread.create({
       text,
+      image,
       author,
       community: communityId || null,
     })

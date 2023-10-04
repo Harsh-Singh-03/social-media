@@ -36,6 +36,7 @@ const page = async ({ params }: { params: { id: string } }) => {
                             community={Thread.community}
                             createdAt={Thread.createdAt}
                             comments={Thread.children}
+                            image={Thread.image}
                             isComment={false} />
                         <Comment threadId={mainThreadId} commentId={commentId} IsReply={isReply} currentUserId={userInfo._id} currentUserImg={userInfo.image} community={Thread.community && Thread.community._id ? Thread.community._id : null } />
                         <div className="w-full">
