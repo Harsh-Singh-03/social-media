@@ -7,10 +7,11 @@ interface props {
     name: string | null | undefined
     username: string
     imgUrl: string
-    bio: string | null | undefined
+    bio: string | null | undefined;
+    isCommunity: boolean
 }
 const ProfileHead = ({
-    accountId, authUserId, name, username, imgUrl, bio
+    accountId, authUserId, name, username, imgUrl, bio, isCommunity
 }: props) => {
     return (
         <div className="w-full">
@@ -26,9 +27,9 @@ const ProfileHead = ({
                         <p className='text-tiny-medium lg:text-base-regular text-gray-1'>@{username}</p>
                     </div>
                 </div>
-                {accountId === authUserId && (
-                    <Link href={`/profile/edit/${authUserId}`}>
-                        <div className='flex cursor-pointer gap-3  rounded-lg px-4 py-2 min-w-max bg-dark-3'>
+                {accountId === authUserId || isCommunity ? (
+                    <Link href={isCommunity? `/communities/edit/${accountId}` :`/profile/edit/${authUserId}`}>
+                        <div className='flex cursor-pointer gap-3  rounded-lg px-4 py-2 min-w-max bg-dark-3 border border-dark-4'>
                             <Image
                                 src='/assets/edit.svg'
                                 alt='logout'
@@ -39,7 +40,7 @@ const ProfileHead = ({
                             <p className='text-light-2 text-tiny-medium lg:text-base-regular hidden xs:block'>Edit</p>
                         </div>
                     </Link>
-                )}
+                ): <></>}
             </div>
             <p className='mt-6 max-w-lg text-small-regular lg:text-base-regular text-light-2'>{bio}</p>
 

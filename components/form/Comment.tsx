@@ -10,9 +10,10 @@ interface props{
     commentId: string;
     IsReply: boolean;
     currentUserId : string;
-    currentUserImg: string
+    currentUserImg: string;
+    community: string | null
 }
-const Comment = ({threadId,commentId,IsReply, currentUserId, currentUserImg }: props) => {
+const Comment = ({threadId,commentId,IsReply, currentUserId, currentUserImg, community}: props) => {    
     const pathname = usePathname()
     const [comment, setComment] = useState("")
     const {toast} = useToast()
@@ -22,8 +23,7 @@ const Comment = ({threadId,commentId,IsReply, currentUserId, currentUserImg }: p
     const handleSubmit = async(e: any) =>{
         e.preventDefault()
         if(comment){
-           const data = await addComment(threadId,commentId, comment,currentUserId, pathname)
-           console.log(data)
+           const data = await addComment(threadId,commentId, comment,currentUserId, pathname,community)
            setComment("")
            toast({
             title: IsReply === true ? "Reply Added !!" : "Comment Added !!"

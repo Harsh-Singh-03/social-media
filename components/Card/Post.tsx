@@ -10,8 +10,6 @@ import DeleteThread from "../Global/DeleteThread";
 import EditThread from "../Global/EditThread";
 import Share from "../Global/Share";
 
-
-
 interface Props {
     id: string;
     currentUserId: string;
@@ -21,10 +19,9 @@ interface Props {
         name: string;
         image: string;
         id: string;
-        _id: string;
     };
     community: {
-        id: string;
+        _id: string;
         name: string;
         image: string;
     } | null;
@@ -55,7 +52,7 @@ const Post = ({
     const customDateString = mongodbDate.toLocaleString('en-US', options);
 
     return (
-        <article className={`relative rounded-lg  ${isComment === false ? "bg-dark-2 p-4 lg:p-7" : "pl-2 lg:pl-4"} w-full`}>
+        <article className={`relative rounded-lg  ${isComment === false ? "bg-dark-2 p-4 lg:p-7 border border-dark-4" : "pl-2 lg:pl-4"} w-full`}>
             {author.id === currentUserId && (
                 <>
                     <Popover>
@@ -64,9 +61,9 @@ const Post = ({
                         </PopoverTrigger>
                         <PopoverContent className="bg-dark-4 max-w-max px-6 border-none mr-2 lg:mr-0">
                             <div className="grid place-content-center gap-4">
-                                <EditThread id={id} text={content}/>
-                                 <span className="border-b border-b-primary-500"></span>
-                               <DeleteThread id={id}/>
+                                <EditThread id={id} text={content} />
+                                <span className="border-b border-b-primary-500"></span>
+                                <DeleteThread id={id} />
                             </div>
                         </PopoverContent>
                     </Popover>
@@ -111,7 +108,7 @@ const Post = ({
                                 height={24}
                                 className='cursor-pointer object-contain'
                             /> */}
-                          <Share id={id} content={content} />
+                            <Share id={id} content={content} />
                         </div>
                     )}
                     {isComment && comments.length > 0 && (
@@ -127,7 +124,7 @@ const Post = ({
                 </div>
             </div>
             {!isComment && comments && comments.length > 0 && (
-                <div className='ml-1 mt-3 flex items-center gap-2'>
+                <div className='ml-1 flex mt-3 items-center gap-2'>
                     {comments.slice(0, 2).map((comment, index) => (
                         <div className="relative w-6 h-6 rounded-full object-cover">
                             <Image
@@ -141,17 +138,38 @@ const Post = ({
                     ))}
 
                     <Link href={`/thread/${id}`}>
-                        <p className='text-subtle-medium text-gray-1 -ml-4'>
+                        <p className={`text-subtle-medium text-gray-1 ${comments.length > 1 ? '-ml-4' : 'ml-0.5'}`}>
                             {comments.length} repl{comments.length > 1 ? "ies" : "y"}
                         </p>
                     </Link>
                 </div>
             )}
-            <div className="flex gap-4 items-center">
+
+            <div className="flex gap-2 items-center mt-3 flex-wrap">
                 {!isComment && createdAt && (
-                    <p className='text-subtle-medium text-gray-1 mt-3'>
-                        {customDateString}
-                    </p>
+                    <>
+                        <p className='text-subtle-medium text-gray-1'>
+                            {customDateString}
+                        </p>
+                        {!isComment && community && (
+                            <Link
+                                href={`/communities/${community._id}`}
+                                className='flex items-center'
+                            >
+                                <p className='text-subtle-medium text-gray-1'>
+                                    {community && ` - ${community.name} Community`}
+                                </p>
+
+                                <Image
+                                    src={community.image}
+                                    alt={community.name}
+                                    width={14}
+                                    height={14}
+                                    className='ml-1 rounded-full object-cover'
+                                />
+                            </Link>
+                        )}
+                    </>
                 )}
             </div>
 

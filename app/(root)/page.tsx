@@ -4,6 +4,7 @@ import { fetchUser } from "@/server/actions/user.actions";
 import { fetchPosts } from "@/server/actions/thread.actions";
 import Post from "@/components/Card/Post";
 import Pagination from "@/components/Global/Pagination";
+import UserMenu from "@/components/Global/UserMenu";
 
 export default async function Home({
   searchParams,
@@ -18,9 +19,10 @@ export default async function Home({
   const postResult:any = await fetchPosts(
     searchParams.page ? +searchParams.page : 1
   );
-  // console.log(postResult)
+
   return (
     <div className="grid place-items-center gap-4 lg:gap-10">
+      <UserMenu avatar={userInfo.image} url={userInfo.id} userId={userInfo._id}/>
       {postResult?.posts.length === 0 ?
         <p className="text-light-1 text-small-regular">No Posts Found</p> : (
           <>

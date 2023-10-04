@@ -1,5 +1,6 @@
 import { fetchUserPost } from "@/server/actions/user.actions"
 import Post from "../Card/Post"
+import { fetchCommnityPost } from "@/server/actions/community.actions"
 
 interface props {
     currentUserId: string
@@ -13,6 +14,9 @@ const ThreadTab = async({
     let result: any;
     if(accountType === 'User'){
       result = await fetchUserPost(accountId)
+    }else{
+      result = await fetchCommnityPost(accountId)
+      // console.log(result._id)
     }
   return (
     <div className="mt-6 lg:mt-10 flex flex-col gap-4 lg:gap-10">
@@ -34,14 +38,14 @@ const ThreadTab = async({
           }
           community={
             accountType === "Community"
-              ? { name: result.name, id: result.id, image: result.image }
+              ? { name: result.name, _id: result._id, image: result.image }
               : thread.community
           }
           createdAt={thread.createdAt}
           comments={thread.children}
           isComment= {false}
         />
-      )): <p className="text-small-regular text-center text-gray-1">Post not fount</p>}
+      )): <p className="text-small-regular text-center text-gray-1">Post not found</p>}
     </div>
   )
 }
