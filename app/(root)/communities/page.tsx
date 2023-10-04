@@ -1,11 +1,11 @@
 import { currentUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { fetchUser } from "@/server/actions/user.actions";
-import TopBar from "@/components/Global/TopBar";
 import SearchBar from "@/components/form/SearchBar";
 import { fetchCommunities } from "@/server/actions/community.actions";
 import Pagination from "@/components/Global/Pagination";
 import CommunityCard from "@/components/Card/CommunityCard";
+import UserMenu from "@/components/Global/UserMenu";
 
 const page = async({
   searchParams,
@@ -25,7 +25,7 @@ const page = async({
     // console.log(searchParams?.page)
     return (
     <div className="grid place-items-center gap-4 lg:gap-10">
-        <TopBar avatar={userInfo.image} url={userInfo.id} userId={userInfo._id} />
+        <UserMenu avatar={userInfo.image} url={userInfo.id} userId={userInfo._id} />
         <SearchBar path="/communities" />
         <section className='grid grid-cols-1 sm:grid-cols-2 gap-4 w-full'>
         {result.communities.length === 0 ? (

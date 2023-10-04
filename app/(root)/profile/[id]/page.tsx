@@ -13,12 +13,13 @@ const page = async ({ params }: { params: { id: string } }) => {
   const user = await currentUser();
   if (!user) return null;
   const userInfo = await fetchUser(params.id)
-  if (!userInfo?.onboarded) redirect("/onboarding")
+  const loggedInUser = await fetchUser(user.id)
+  if (!loggedInUser?.onboarded) redirect("/onboarding")
   // TODO Profile and Edit profile and also Sync
   
   return (
     <section className="grid place-items-center gap-6 lg:gap-10">
-      <UserMenu avatar={userInfo.image} url={userInfo.id} userId={userInfo._id} />
+      <UserMenu avatar={loggedInUser.image} url={loggedInUser.id} userId={loggedInUser._id} />
       <ProfileHead
         accountId={userInfo.id}
         authUserId={user.id}
