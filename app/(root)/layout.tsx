@@ -9,6 +9,7 @@ import { Toaster } from '@/components/ui/toaster'
 import { LoaderProvider } from '@/components/ui/LoaderContext'
 import Loader from '@/components/ui/Loader'
 import TopBar from '@/components/Global/TopBar'
+import RightSideBar from '@/components/Global/rightSideBar'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -39,6 +40,7 @@ export default function RootLayout({
               <section className='pt-20 lg:pt-24 w-full pb-20 md:pb-10 pl-4 pr-4 lg:pl-10 lg:pr-10 max-w-4xl mr-auto ml-auto'>
                 {children}
               </section>
+              {/* <RightSideBar/> */}
             </main>
             <BottomBar />
             <Loader />

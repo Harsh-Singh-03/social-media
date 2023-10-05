@@ -17,8 +17,9 @@ const page = async ({ params }: { params: { id: string } }) => {
     if (!user) return null;
     const userInfo = await fetchUser(user.id)
     if (!userInfo?.onboarded) redirect("/onboarding")
-    const {Data, fucnButton}: any = await getCommunity(params.id, userInfo._id)
-
+    const comData: any = await getCommunity(params.id, userInfo._id)
+    if(!comData) redirect('/')
+    const {Data, fucnButton}: any = comData 
     let isCommunity = false
     if (Data.createdBy.toString() === userInfo._id.toString()) {
         isCommunity = true 

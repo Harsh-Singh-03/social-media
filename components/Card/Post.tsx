@@ -88,10 +88,10 @@ const Post = ({
                     <div className="flex flex-col sm:flex-row sm:gap-6">
                     {image && (
                         <div className="w-full sm:w-[35%] sm:min-w-[35%] mt-4 object-contain">
-                            <Image src={image} alt="post" width={300} height={100}  className="w-full h-auto object-contain"/>
+                            <Image src={image} alt="post" width={300} height={100}  className="w-full h-auto object-contain rounded-md"/>
                         </div>
                     )}
-                    <p className={`mt-2 text-subtle-medium sm:text-small-regular text-light-2 tracking-wider ${image && 'sm:mt-8'}`}>{content}</p>
+                    <p className={`mt-2 text-subtle-medium sm:text-small-regular text-light-2 tracking-wider ${image && 'mt-5'}`}>{content}</p>
 
                     </div>
                     {isReply !== true && (
