@@ -201,6 +201,7 @@ export const deleteThread = async (threadId: string, path: string) => {
 
   }
 }
+
 export const editThread = async (id: string, text: string, path: string) => {
   try {
     connectToDB()
@@ -214,3 +215,31 @@ export const editThread = async (id: string, text: string, path: string) => {
     throw new Error(`Error : ${error.message}`)
   }
 }
+
+// Likes on thread
+export const addLike = async(threadId: string, userId: string, path: string) =>{
+  try {
+    const thread = await Thread.findById(threadId)
+    if(!thread) throw new Error("Thread not found")
+    thread.likes.push(userId)
+    await thread.save()
+    revalidatePath(path)
+    return {success: true}
+  } catch (error: any) {
+    console.log(error.message)
+  }
+}
+
+export const disLike = async(threadId: string, userId: string, path: string) =>{
+  try {
+    const thread = await Thread.findById(threadId)
+    if(!thread) throw new Error("Thread not found")
+    thread.likes.pull(userId)
+    await thread.save()
+    revalidatePath(path)
+    return {success: true}
+  } catch (error: any) {
+    console.log(error.message)
+  }
+}
+// Get people who liked by pagination...

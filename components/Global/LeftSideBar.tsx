@@ -10,7 +10,7 @@ const LeftSideBar = () => {
     const pathname = usePathname()
     const { userId } = useAuth()
     return (
-        <section className="min-h-screen min-w-[max] xl:min-w-[250px] hidden justify-between flex-col sticky top-0 left-0 z-20 md:flex bg-dark-2 px-6 pb-6 border-r border-r-dark-4 max-h-screen">
+        <section className="min-h-screen min-w-[max] hidden justify-between flex-col sticky top-0 left-0 z-20 md:flex bg-dark-2 px-6 pb-6 border-r border-r-dark-4 max-h-screen">
             <div className='flex  gap-6 flex-col pt-28'>
                 {NavData.map((item, index) => {
                     return (

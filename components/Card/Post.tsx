@@ -9,10 +9,12 @@ import {
 import DeleteThread from "../Global/DeleteThread";
 import EditThread from "../Global/EditThread";
 import Share from "../Global/Share";
+import Like from "../Global/Like";
 
 interface Props {
     id: string;
     currentUserId: string;
+    currentUserDbId?: any;
     parentId: string | null;
     content: string;
     author: {
@@ -33,11 +35,13 @@ interface Props {
     }[];
     isComment?: boolean;
     isReply?: boolean;
-    image?: string | undefined | null
+    image?: string | undefined | null;
+    likes?: any
 }
 const Post = ({
     id,
     currentUserId,
+    currentUserDbId,
     parentId,
     content,
     author,
@@ -46,12 +50,20 @@ const Post = ({
     comments,
     isComment,
     isReply,
-    image
+    image,
+    likes
 }: Props) => {
+    // For Date Formating
     let mongodbDate = new Date(createdAt)
-    // Using toLocaleString() with custom options for a specific format
     const options: any = { day: 'numeric', month: 'long', year: 'numeric' };
     const customDateString = mongodbDate.toLocaleString('en-US', options);
+    // For checking if the user like that post
+    let isLiked = false
+    if(likes && likes.length > 0){
+        if(likes.includes(currentUserDbId)){
+            isLiked = true
+        }
+    }
 
     return (
         <article className={`relative rounded-lg  ${isComment === false ? "bg-dark-2 p-4 lg:p-7 border border-dark-4" : "pl-2 lg:pl-4"} w-full`}>
@@ -95,14 +107,8 @@ const Post = ({
 
                     </div>
                     {isReply !== true && (
-                        <div className={`flex gap-3.5 mt-3 ${isComment && comments.length === 0 && "pb-4 lg:pb-7"}`}>
-                            <Image
-                                src='/assets/heart-gray.svg'
-                                alt='heart'
-                                width={24}
-                                height={24}
-                                className='cursor-pointer object-contain'
-                            />
+                        <div className={`flex gap-3.5 mt-3 ${isComment && comments.length === 0 && "pb-4 lg:pb-7"} ${likes && likes.length > 0 ? 'mb-3' : ''}`}>
+                            <Like userId={currentUserDbId} threadId={id} isLiked={isLiked} likeCount={likes && likes.length > 0 ? likes.length : 0} />
                             <Link href={`/thread/${id}`}>
                                 <Image
                                     src='/assets/reply.svg'
@@ -112,13 +118,6 @@ const Post = ({
                                     className='cursor-pointer object-contain'
                                 />
                             </Link>
-                            {/* <Image
-                                src='/assets/repost.svg'
-                                alt='heart'
-                                width={24}
-                                height={24}
-                                className='cursor-pointer object-contain'
-                            /> */}
                             <Share id={id} content={content} />
                         </div>
                     )}

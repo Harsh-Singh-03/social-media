@@ -67,6 +67,7 @@ const page = async ({ params }: { params: { id: string } }) => {
             {/* @ts-ignore */}
             <ThreadTab
               currentUserId={user.id}
+              dbId={userInfo._id}
               accountId={userInfo.id}
               accountType='User'
             />

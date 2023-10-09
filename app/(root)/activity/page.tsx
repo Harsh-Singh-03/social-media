@@ -14,7 +14,7 @@ const page = async () => {
   // console.log(notification)
   return (
     <section className="grid place-items-left gap-4 lg:gap-6 w-full">
-      <UserMenu avatar={userInfo.image} url={userInfo.id} userId={userInfo._id}/>
+      <UserMenu avatar={userInfo.image} url={userInfo.id} userId={userInfo._id} />
       {notification && notification.length > 0 ?
         <>
           {notification.map((activity) => (

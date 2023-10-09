@@ -5,13 +5,15 @@ import { fetchPosts } from "@/server/actions/thread.actions";
 import Post from "@/components/Card/Post";
 import Pagination from "@/components/Global/Pagination";
 import UserMenu from "@/components/Global/UserMenu";
+// import Infinite from "@/components/Home/Infinite";
 
-export default async function Home({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | undefined };
-}) {
-
+export default async function Home(
+  {
+    searchParams,
+  }: {
+    searchParams: { [key: string]: string | undefined };
+  }
+) {
   const user = await currentUser();
   if (!user) return null;
   const userInfo = await fetchUser(user.id)
@@ -30,6 +32,7 @@ export default async function Home({
               return (
                 <Post key={post._id}
                   id={post._id}
+                  currentUserDbId={userInfo._id}
                   currentUserId={user.id}
                   parentId={post.parentId}
                   content={post.text}
@@ -39,6 +42,7 @@ export default async function Home({
                   comments={post.children}
                   isComment={false}
                   image={post.image}
+                  likes={post.likes}
                 />
 
               )
@@ -46,7 +50,7 @@ export default async function Home({
           </>
         )
       }
-
+      {/* <Infinite id={user.id}/> */}
       <Pagination
         path='/'
         search={undefined}

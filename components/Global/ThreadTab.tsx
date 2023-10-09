@@ -6,9 +6,10 @@ interface props {
     currentUserId: string
     accountId: string
     accountType: string
+    dbId: string
 }
 const ThreadTab = async({
-    currentUserId, accountId, accountType
+    currentUserId, accountId, accountType, dbId
 }: props) => {
 
     let result: any;
@@ -25,6 +26,7 @@ const ThreadTab = async({
           key={thread._id}
           id={thread._id}
           currentUserId={currentUserId}
+          currentUserDbId={dbId}
           parentId={thread.parentId}
           content={thread.text}
           author={
@@ -44,6 +46,7 @@ const ThreadTab = async({
           createdAt={thread.createdAt}
           comments={thread.children}
           image={thread.image}
+          likes={thread.likes}
           isComment= {false}
         />
       )): <p className="text-small-regular text-center text-gray-1">Post not found</p>}

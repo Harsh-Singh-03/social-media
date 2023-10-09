@@ -30,6 +30,7 @@ const page = async ({ params }: { params: { id: string } }) => {
                         <Post key={Thread._id}
                             id={Thread._id}
                             currentUserId={user.id}
+                            currentUserDbId={userInfo._id}
                             parentId={Thread.parentId}
                             content={Thread.text}
                             author={Thread.author}
@@ -37,6 +38,7 @@ const page = async ({ params }: { params: { id: string } }) => {
                             createdAt={Thread.createdAt}
                             comments={Thread.children}
                             image={Thread.image}
+                            likes={Thread.likes}
                             isComment={false} />
                         <Comment threadId={mainThreadId} commentId={commentId} IsReply={isReply} currentUserId={userInfo._id} currentUserImg={userInfo.image} community={Thread.community && Thread.community._id ? Thread.community._id : null } />
                         <div className="w-full">
@@ -45,6 +47,7 @@ const page = async ({ params }: { params: { id: string } }) => {
                                     key={childItem._id}
                                     id={childItem._id}
                                     currentUserId={user.id}
+                                    currentUserDbId={userInfo._id}
                                     parentId={childItem.parentId}
                                     content={childItem.text}
                                     author={childItem.author}
@@ -52,6 +55,7 @@ const page = async ({ params }: { params: { id: string } }) => {
                                     createdAt={childItem.createdAt}
                                     comments={childItem.children}
                                     isComment={true}
+                                    likes={Thread.likes}
                                     isReply={isReply}
                                 />
                             ))}
