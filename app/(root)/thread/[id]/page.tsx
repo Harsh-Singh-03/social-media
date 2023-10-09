@@ -55,7 +55,7 @@ const page = async ({ params }: { params: { id: string } }) => {
                                     createdAt={childItem.createdAt}
                                     comments={childItem.children}
                                     isComment={true}
-                                    likes={Thread.likes}
+                                    likes={childItem.likes}
                                     isReply={isReply}
                                 />
                             ))}
