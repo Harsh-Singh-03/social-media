@@ -6,6 +6,7 @@ import { useState } from "react"
 import { useLoader } from "../ui/LoaderContext"
 import { useToast } from "../ui/use-toast"
 import { usePathname } from "next/navigation"
+import Link from "next/link"
 
 
 interface props{
@@ -50,7 +51,7 @@ const Like = ({threadId, userId, isLiked, likeCount}: props) => {
                 className='cursor-pointer object-contain'
                 onClick={like}
             />
-            {likeCount > 0 && <span className="text-gray-1 absolute text-tiny-medium text-center min-w-max">{likeCount === 1 ? likeCount : `you & ${likeCount-1}`} likes</span> }
+            {likeCount > 0 && <Link href={`/thread/likes/${threadId}`} className="text-gray-1 left-0 absolute -bottom-4 text-tiny-medium text-center min-w-max z-40">{likeCount === 1 ? likeCount : `you & ${likeCount-1}`} likes</Link> }
         </div>
     )
 }

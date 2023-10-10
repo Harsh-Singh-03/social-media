@@ -107,7 +107,7 @@ const Post = ({
 
                     </div>
                     {isReply !== true && (
-                        <div className={`flex gap-3.5 mt-3 ${isComment && comments.length === 0 && "pb-4 lg:pb-7"} ${likes && likes.length > 0 ? 'mb-3' : ''}`}>
+                        <div className={`flex gap-3.5 mt-3 ${isComment && comments.length === 0 && "pb-4 lg:pb-7"} ${likes && likes.length > 0 ? 'mb-4' : ''}`}>
                             <Like userId={currentUserDbId} threadId={id} isLiked={isLiked} likeCount={likes && likes.length > 0 ? likes.length : 0} />
                             <Link href={`/thread/${id}`}>
                                 <Image

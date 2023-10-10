@@ -243,3 +243,21 @@ export const disLike = async(threadId: string, userId: string, path: string) =>{
   }
 }
 // Get people who liked by pagination...
+
+export const getWhoLikes = async (threadId: string) =>{
+  try {
+    connectToDB()
+    const Likes = await Thread.findById(threadId)
+    .sort({ createdAt: "desc" })
+    .populate({
+      path: "likes",
+      model: User,
+      select: "id name username image",
+    })
+    if(!Likes) return {success: false}
+    return {success: true, Likes}
+
+  } catch (error: any) {
+    console.log(error.message)
+  }
+}
