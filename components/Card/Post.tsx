@@ -66,7 +66,7 @@ const Post = ({
     }
 
     return (
-        <article className={`relative rounded-lg  ${isComment === false ? "bg-dark-2 p-4 lg:p-7 border border-dark-4" : "pl-2 lg:pl-4"} w-full`}>
+        <article key={id} className={`relative rounded-lg  ${isComment === false ? "bg-dark-2 p-4 lg:p-7 border border-dark-4" : "pl-2 lg:pl-4"} w-full`}>
             {author.id === currentUserId && (
                 <>
                     <Popover>

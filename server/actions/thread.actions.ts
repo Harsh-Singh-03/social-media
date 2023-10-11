@@ -35,41 +35,6 @@ export const postThread = async ({ text,image, author, communityId, path }: Para
   }
 }
 
-export const fetchPosts = async (pageNumber = 1, pageSize = 10) => {
-  try {
-    connectToDB()
-    const skipAmount = (pageNumber - 1) * pageSize
-
-    const postQuery = await Thread.find({ parentId: { $in: [null, undefined] } })
-      .sort({ createdAt: "desc" })
-      .skip(skipAmount)
-      .limit(pageSize)
-      .populate({
-        path: "author",
-        model: User,
-      })
-      .populate({
-        path: "community",
-        model: Community,
-      })
-      .populate({
-        path: "children", // Populate the children field
-        populate: {
-          path: "author", // Populate the author field within children
-          model: User,
-          select: "_id name parentId image",
-          // Select only _id and username fields of the author
-        },
-      }).exec()
-
-    const totalDocumentCount = await Thread.countDocuments({ parentId: { $in: [null, undefined] } })
-    const isNext = totalDocumentCount > skipAmount + postQuery.length;
-    return { posts: postQuery, isNext }
-
-  } catch (error: any) {
-    console.log(error)
-  }
-}
 // TODO : To learn about everything in populate
 export const fetchThread = async (id: string) => {
   try {
