@@ -6,12 +6,13 @@ const LoaderContext: any = createContext();
 
 export const LoaderProvider = ({ children }: any) => {
   const [loaderActive, setLoaderActive] = useState(false);
+  const [ThreadFeed, setThreadFeed] = useState([]);
 
   const showLoader = () => setLoaderActive(true);
   const hideLoader = () => setLoaderActive(false);
 
   return (
-    <LoaderContext.Provider value={{ loaderActive, showLoader, hideLoader }}>
+    <LoaderContext.Provider value={{ loaderActive, showLoader, hideLoader, setThreadFeed, ThreadFeed }}>
       {children}
     </LoaderContext.Provider>
   );

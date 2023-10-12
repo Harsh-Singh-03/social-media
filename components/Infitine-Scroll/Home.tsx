@@ -3,13 +3,14 @@ import { useEffect, useState } from "react"
 import Post from "../Card/Post";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Load from "./Load";
+import { useLoader } from "../ui/LoaderContext";
 
 interface props {
     userInfo: string;
     user: string
 }
 const HomePost = ({ userInfo, user }: props) => {
-    const [postResult, setPostResult] = useState([])
+    const {ThreadFeed, setThreadFeed}: any = useLoader()
     const [Page, setPage] = useState(1)
     const [isNext, setIsNext] = useState(true)
     const [isLoad, setIsLoad] = useState(true)
@@ -24,18 +25,21 @@ const HomePost = ({ userInfo, user }: props) => {
         const data = await response.json()
         setIsLoad(false)
         if (data.success === true) {
-            setPostResult(postResult.concat(data.posts))
+            setThreadFeed(ThreadFeed.concat(data.posts))
             setPage(Page + 1)
             setIsNext(data.isNext)
         }
     }
+    
     useEffect(() => {
-        getPosts()
+        if(ThreadFeed.length === 0){
+            getPosts()
+        }
     }, [])
 
     return (
         <InfiniteScroll
-            dataLength={postResult.length}
+            dataLength={ThreadFeed.length}
             next={getPosts}
             hasMore={isNext}
             loader={<Load />}
@@ -46,10 +50,10 @@ const HomePost = ({ userInfo, user }: props) => {
             }
             className="grid place-items-center gap-4 lg:gap-10"
         >
-            {postResult.length === 0 ?
+            {ThreadFeed.length === 0 ?
                 <p className="text-gray-1 text-small-regular"> {isLoad ? "Fetching Posts" : "No Posts Found"}</p> : (
                     <>
-                        {postResult?.map((post: any) => {
+                        {ThreadFeed?.map((post: any) => {
                             return (
                                 <Post key={post._id}
                                     id={post._id}
