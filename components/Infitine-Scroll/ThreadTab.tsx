@@ -13,8 +13,8 @@ interface props {
 const ThreadTab = ({
     currentUserId, accountId, dbId
 }: props) => {
-    
-    const { UserFeed, setUserFeed }: any = useLoader()
+
+    const [UserFeed, setUserFeed] = useState({ Data: [], isNext: true, Page: 1, name: "", image: "", id: "" });
     const [isLoad, setIsLoad] = useState(true)
 
     const getPosts = async () => {
@@ -35,18 +35,14 @@ const ThreadTab = ({
                 Page: UserFeed.Page + 1,
                 name: data.threads.name,
                 image: data.threads.image,
-                id: data.threads.id 
+                id: data.threads.id
             });
             // : data.threads._id,
         }
     }
 
     useEffect(() => {
-        
-        if (UserFeed.Data.length === 0 ) {
-            getPosts()
-        }
-
+        getPosts()
     }, [])
 
     return (

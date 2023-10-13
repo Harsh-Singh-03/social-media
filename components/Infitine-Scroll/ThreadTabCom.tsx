@@ -3,7 +3,6 @@ import Post from "../Card/Post"
 import { useEffect, useState } from "react"
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Load from "./Load";
-import { useLoader } from "../ui/LoaderContext";
 
 interface props {
     currentUserId: string
@@ -14,7 +13,7 @@ const ThreadTabCom = ({
     currentUserId, accountId, dbId
 }: props) => {
 
-    const { CommunityFeed, setCommunityFeed }: any = useLoader()
+    const [CommunityFeed, setCommunityFeed] = useState({Data: [], isNext: true, Page: 1, name: "", image:"", id:""});
     const [isLoad, setIsLoad] = useState(true)
 
     const getPosts = async () => {
@@ -42,10 +41,7 @@ const ThreadTabCom = ({
     }
 
     useEffect(() => {
-        if (CommunityFeed.Data.length === 0) {
-            getPosts()
-        }
-
+        getPosts()
     }, [])
 
     return (
