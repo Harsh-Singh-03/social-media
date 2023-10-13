@@ -5,9 +5,11 @@ import { redirect } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { profileTabs } from '@/constants/nav'
 import Image from "next/image";
-import ThreadTab from "@/components/Global/ThreadTab";
+// import ThreadTab from "@/components/Infinite-Scroll/ThreadTab";
+
 import MemberTab from "@/components/Global/MemberTab";
 import UserMenu from "@/components/Global/UserMenu";
+import ThreadTab from "@/components/Infitine-Scroll/ThreadTab";
 
 const page = async ({ params }: { params: { id: string } }) => {
   const user = await currentUser();
@@ -69,7 +71,6 @@ const page = async ({ params }: { params: { id: string } }) => {
               currentUserId={user.id}
               dbId={loggedInUser._id}
               accountId={userInfo.id}
-              accountType='User'
             />
           </TabsContent>
           <TabsContent

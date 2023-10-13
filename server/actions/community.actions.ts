@@ -113,40 +113,6 @@ export const getCommunity = async (id: string, userId: string) => {
     }
 }
 
-export const fetchCommnityPost = async (id: string) => {
-    try {
-        connectToDB()
-        const threads = await Community.findById(id).populate({
-            path: "threads",
-            model: Thread,
-            options: {
-                sort: { createdAt: -1 } // Sort by the "createdAt" field in descending order
-            },
-            populate: [
-                {
-                    path: "author",
-                    model: User,
-                    select: "name image id", // Select the "name" and "_id" fields from the "User" model
-                },
-                {
-                    path: "children",
-                    model: Thread,
-                    populate: {
-                        path: "author",
-                        model: User,
-                        select: "name image id", // Select the "name" and "_id" fields from the "User" model
-                    },
-                },
-            ],
-        });
-        return threads;
-
-    } catch (error: any) {
-        console.log(error)
-
-    }
-}
-
 export async function fetchCommunities({
     searchString = "",
     pageNumber = 1,

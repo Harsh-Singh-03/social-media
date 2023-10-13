@@ -77,39 +77,6 @@ export const fetchUser = async (id : string): Promise<any>=> {
 
 }
 
-export const fetchUserPost = async (id: string) =>{
-  try {
-    connectToDB()
-    const threads = await User.findOne({ id: id }).populate({
-      path: "threads",
-      model: Thread,
-      options: {
-        sort: { createdAt: -1 } // Sort by the "createdAt" field in descending order
-      },
-      populate: [
-        {
-          path: "community",
-          model: Community,
-          select: "name id image _id", // Select the "name" and "_id" fields from the "Community" model
-        },
-        {
-          path: "children",
-          model: Thread,
-          populate: {
-            path: "author",
-            model: User,
-            select: "name image id", // Select the "name" and "_id" fields from the "User" model
-          },
-        },
-      ],
-    });
-    return threads;
-    
-  } catch (error: any) {
-    console.log(error)
-    
-  }
-}
 export const fetchUserCommunity = async (id: string) =>{
   try {
     connectToDB()

@@ -6,10 +6,10 @@ import { redirect } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Image from "next/image";
 import { communityTabs } from "@/constants/nav";
-import ThreadTab from "@/components/Global/ThreadTab";
 import ProfileCard from "@/components/Card/ProfileCard";
 import CommunityFunc from "@/components/Global/CommunityFunc";
 import UserMenu from "@/components/Global/UserMenu";
+import ThreadTabCom from "@/components/Infitine-Scroll/ThreadTabCom";
 
 
 const page = async ({ params }: { params: { id: string } }) => {
@@ -74,11 +74,10 @@ const page = async ({ params }: { params: { id: string } }) => {
                         className='w-full text-light-1'
                     >
                         {/* @ts-ignore */}
-                        <ThreadTab
+                        <ThreadTabCom
                             currentUserId={user.id}
                             dbId={userInfo._id}
                             accountId={Data._id}
-                            accountType='Community'
                         />
                     </TabsContent>
                     <TabsContent
