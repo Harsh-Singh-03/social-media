@@ -15,10 +15,21 @@ const page = async ({ params }: { params: { id: string } }) => {
     if (!userInfo?.onboarded) redirect("/onboarding")
     let Likes = await getWhoLikes(params.id)
     if (Likes?.success === false || !Likes?.Likes || !Likes?.Likes.likes || Likes?.Likes.likes.length < 1) redirect('/')
+    let chatUser = false;
+    if (userInfo.chatUsers && userInfo.chatUsers.length > 0) {
+      userInfo.chatUsers.forEach((user: any) => {
+        if (user.messageStatus !== 'seen' && user.messageAuthor !== 'Sender') {
+          chatUser = true
+          return;
+        }
+      })
+    } else {
+      chatUser = false
+    }
     // console.log(Likes?.Likes.likes)
     return (
         <div className="grid place-items-center gap-4 lg:gap-10">
-            <UserMenu avatar={userInfo.image} url={userInfo.id} userId={userInfo._id} />
+            <UserMenu avatar={userInfo.image} url={userInfo.id} userId={userInfo._id} chatUsers={chatUser} />
             <div className="w-full">
                 <Back />
             </div>
@@ -33,6 +44,7 @@ const page = async ({ params }: { params: { id: string } }) => {
                             <ProfileCard
                                 key={person.id}
                                 id={person.id}
+                                DBID={person._id}
                                 name={person.name}
                                 username={person.username}
                                 imageUrl={person.image}

@@ -11,7 +11,7 @@ import {
     DropdownMenuRadioItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { useLoader } from "../ui/LoaderContext";
+import { useCustomHook } from "../ui/LoaderContext";
 import Image from "next/image";
 import { useUploadThing } from "@/server/uploadthing";
 
@@ -29,8 +29,7 @@ const CreateThread = ({ userId, data }: Props) => {
     const [Img, setImg] = useState('/assets/upload.svg')
     const [labelDisplay, setLabelDispay] = useState('hidden')
     const { toast } = useToast()
-    const { showLoader, hideLoader }: any = useLoader();
-
+    const { showLoader, hideLoader, setIsNewThread }: any = useCustomHook();
 
     const onchange = (e: any) => {
         setThreadData(e.target.value)
@@ -70,10 +69,13 @@ const CreateThread = ({ userId, data }: Props) => {
                     setFiles([])
                 }
             }
-            await postThread({ text: threadData, image: fileEl ? fileEl : '' , author: userId, path: pathName, communityId: position === "Personal" ? null : position.split("|")[0] })
+           const data =  await postThread({ text: threadData, image: fileEl ? fileEl : '' , author: userId, path: pathName, communityId: position === "Personal" ? null : position.split("|")[0] })
             hideLoader()
             toast({ title: "Thread Created Successfully!" })
-            router.push("/")
+            if(data?.success === true){
+                setIsNewThread(true)
+                router.push("/")
+            }
         } else {
             alert("post should be 12 charcter long!!")
         }

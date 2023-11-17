@@ -5,14 +5,14 @@ import { usePathname,useRouter } from "next/navigation"
 import { useState } from "react"
 import { useToast } from "../ui/use-toast"
 import Image from "next/image"
-import { useLoader } from "../ui/LoaderContext"
+import { useCustomHook } from "../ui/LoaderContext"
 
 // will create interface to avoid use any : or Will create database and send data to it
 
 const Onboard = (props: any) => {
     const pathname = usePathname()
     const router = useRouter()
-    const { showLoader, hideLoader }: any = useLoader();
+    const { showLoader, hideLoader }: any = useCustomHook();
     // const {startUpload} = useUploadThing("media")
     const {toast} = useToast()
     // const [Files, setFiles] = useState<File[]>([]);

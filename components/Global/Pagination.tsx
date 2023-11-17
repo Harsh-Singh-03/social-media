@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { useLoader } from "../ui/LoaderContext";
+import { useCustomHook } from "../ui/LoaderContext";
 
 interface Props {
   pageNumber: number;
@@ -13,7 +13,7 @@ interface Props {
 function Pagination({ pageNumber, isNext, path, search }: Props) {
   const router = useRouter();
 
-  const {showLoader, hideLoader}: any = useLoader()
+  const {showLoader, hideLoader}: any = useCustomHook()
 
   const handleNavigation = (type: string) => {
     let nextPageNumber = pageNumber;

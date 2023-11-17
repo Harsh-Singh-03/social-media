@@ -15,7 +15,7 @@ function TopBar() {
                 <p className="text-light-1 text-heading3-bold">Threads</p>
             </Link>
             <div className="flex gap-4 items-center">
-                <div className="md:hidden block mr-14">
+                <div className="md:hidden block mr-24">
                     <SignedIn>
                         <SignOutButton signOutCallback={() => router.push("/sign-in")}>
                             <Image className="cursor-pointer" src="/assets/logout.svg" width={24} height={24} alt="logo" />

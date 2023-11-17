@@ -10,6 +10,7 @@ import Image from "next/image";
 import MemberTab from "@/components/Global/MemberTab";
 import UserMenu from "@/components/Global/UserMenu";
 import ThreadTab from "@/components/Infitine-Scroll/ThreadTab";
+import Link from "next/link";
 
 const page = async ({ params }: { params: { id: string } }) => {
   const user = await currentUser();
@@ -18,10 +19,21 @@ const page = async ({ params }: { params: { id: string } }) => {
   const loggedInUser = await fetchUser(user.id)
   if (!loggedInUser?.onboarded) redirect("/onboarding")
   // TODO Profile and Edit profile and also Sync
+  let chatUser = false;
+  if (userInfo.chatUsers && userInfo.chatUsers.length > 0) {
+    userInfo.chatUsers.forEach((user: any) => {
+      if (user.messageStatus !== 'seen' && user.messageAuthor !== 'Sender') {
+        chatUser = true
+        return;
+      }
+    })
+  } else {
+    chatUser = false
+  }
   
   return (
     <section className="grid place-items-center gap-6 lg:gap-10">
-      <UserMenu avatar={loggedInUser.image} url={loggedInUser.id} userId={loggedInUser._id} />
+      <UserMenu avatar={loggedInUser.image} url={loggedInUser.id} userId={loggedInUser._id} chatUsers={chatUser} />
       <ProfileHead
         accountId={userInfo.id}
         authUserId={user.id}
@@ -31,7 +43,9 @@ const page = async ({ params }: { params: { id: string } }) => {
         bio={userInfo.bio}
         isCommunity={false}
       />
-
+      {userInfo.id !== user.id && (
+        <Link href={`/chat/${userInfo._id}`} className="btn w-full text-center mt-0">Message</Link>
+      )}
       <div className="w-full">
         <Tabs defaultValue="threads" className="w-full">
           <TabsList className="w-full bg-dark-2 grid grid-cols-2 min-h-[48px] text-light-2 border border-dark-4">

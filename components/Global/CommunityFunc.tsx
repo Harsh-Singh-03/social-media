@@ -3,7 +3,7 @@
 import { deleteCommunity, removeMember, requestForJoin } from "@/server/actions/community.actions";
 import { usePathname, useRouter } from "next/navigation";
 import { useToast } from "../ui/use-toast";
-import { useLoader } from "../ui/LoaderContext";
+import { useCustomHook } from "../ui/LoaderContext";
 
 
 interface props {
@@ -15,7 +15,7 @@ interface props {
 const CommunityFunc = ({btnText, communityId, userId}: props) => {
     const path = usePathname()
     const {toast} = useToast()
-    const {hideLoader, showLoader}: any = useLoader()
+    const {hideLoader, showLoader}: any = useCustomHook()
     const router = useRouter()
 
     const JoinCommunity = async() =>{

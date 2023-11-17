@@ -50,11 +50,6 @@ const ThreadTabCom = ({
             next={() => getPosts()}
             hasMore={CommunityFeed.isNext}
             loader={<Load />}
-            endMessage={
-                <p className="text-gray-1 text-small-regular" style={{ textAlign: 'center' }}>
-                    Yay! You have seen it all
-                </p>
-            }
             className="flex flex-col gap-4 lg:gap-10 mt-6 lg:mt-10"
         >
             {CommunityFeed.Data && CommunityFeed.Data.length > 0 ? CommunityFeed.Data.map((thread: any) => (

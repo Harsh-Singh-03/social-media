@@ -7,12 +7,12 @@ import Community from "../models/community.model";
 
 interface Params {
   text: string;
-  image?: string | undefined | null 
+  image?: string | undefined | null
   author: string;
   communityId: string | null;
   path: string;
 }
-export const postThread = async ({ text,image, author, communityId, path }: Params) => {
+export const postThread = async ({ text, image, author, communityId, path }: Params) => {
   try {
     connectToDB()
     const ThreadData = await Thread.create({
@@ -30,6 +30,7 @@ export const postThread = async ({ text,image, author, communityId, path }: Para
       })
     }
     revalidatePath(path)
+    return { success: true }
   } catch (error: any) {
     console.log(error)
   }
@@ -131,7 +132,7 @@ export const deleteThread = async (threadId: string, path: string) => {
       await Thread.deleteMany({ parentId: threadId })// to delete all the comment & reply 
       await Thread.findByIdAndDelete(threadId)
       UserData.threads = UserData.threads.filter((thread: any) => thread.toString() !== threadId);
-      await UserData.save()
+      await User.findByIdAndUpdate(UserData._id, {threads: UserData.threads}, {new: true})
       revalidatePath(path)
       return { success: true }
     }
@@ -182,45 +183,45 @@ export const editThread = async (id: string, text: string, path: string) => {
 }
 
 // Likes on thread
-export const addLike = async(threadId: string, userId: string, path: string) =>{
+export const addLike = async (threadId: string, userId: string, path: string) => {
   try {
     const thread = await Thread.findById(threadId)
-    if(!thread) throw new Error("Thread not found")
+    if (!thread) throw new Error("Thread not found")
     thread.likes.push(userId)
     await thread.save()
     revalidatePath(path)
-    return {success: true}
+    return { success: true }
   } catch (error: any) {
     console.log(error.message)
   }
 }
 
-export const disLike = async(threadId: string, userId: string, path: string) =>{
+export const disLike = async (threadId: string, userId: string, path: string) => {
   try {
     const thread = await Thread.findById(threadId)
-    if(!thread) throw new Error("Thread not found")
+    if (!thread) throw new Error("Thread not found")
     thread.likes.pull(userId)
     await thread.save()
     revalidatePath(path)
-    return {success: true}
+    return { success: true }
   } catch (error: any) {
     console.log(error.message)
   }
 }
 // Get people who liked by pagination...
 
-export const getWhoLikes = async (threadId: string) =>{
+export const getWhoLikes = async (threadId: string) => {
   try {
     connectToDB()
     const Likes = await Thread.findById(threadId)
-    .sort({ createdAt: "desc" })
-    .populate({
-      path: "likes",
-      model: User,
-      select: "id name username image",
-    })
-    if(!Likes) return {success: false}
-    return {success: true, Likes}
+      .sort({ createdAt: "desc" })
+      .populate({
+        path: "likes",
+        model: User,
+        select: "id name username image",
+      })
+    if (!Likes) return { success: false }
+    return { success: true, Likes }
 
   } catch (error: any) {
     console.log(error.message)

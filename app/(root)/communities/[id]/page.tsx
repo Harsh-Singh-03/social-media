@@ -18,16 +18,27 @@ const page = async ({ params }: { params: { id: string } }) => {
     const userInfo = await fetchUser(user.id)
     if (!userInfo?.onboarded) redirect("/onboarding")
     const comData: any = await getCommunity(params.id, userInfo._id)
-    if(!comData) redirect('/')
-    const {Data, fucnButton}: any = comData 
+    if (!comData) redirect('/')
+    const { Data, fucnButton }: any = comData
     let isCommunity = false
     if (Data.createdBy.toString() === userInfo._id.toString()) {
-        isCommunity = true 
+        isCommunity = true
     }
-   
+    let chatUser = false;
+    if (userInfo.chatUsers && userInfo.chatUsers.length > 0) {
+        userInfo.chatUsers.forEach((user: any) => {
+            if (user.messageStatus !== 'seen' && user.messageAuthor !== 'Sender') {
+                chatUser = true
+                return;
+            }
+        })
+    } else {
+        chatUser = false
+    }
+
     return (
         <section className="grid place-items-center gap-6 lg:gap-10">
-            <UserMenu avatar={userInfo.image} url={userInfo.id} userId={userInfo._id} />
+            <UserMenu avatar={userInfo.image} url={userInfo.id} userId={userInfo._id} chatUsers={chatUser} />
             <ProfileHead
                 accountId={Data._id}
                 authUserId={user.id}
@@ -88,13 +99,13 @@ const page = async ({ params }: { params: { id: string } }) => {
                         <div className="mt-6 lg:mt-10 p-4 lg:p-7 flex flex-col gap-4 lg:gap-7 bg-dark-2 rounded-lg border border-dark-4">
                             {Data && Data.members.length > 0 ? Data.members.map((member: any, index: number) => (
                                 <>
-                                    <ProfileCard id={member.id} name={member.name} username={member.username} imageUrl={member.image} isAdmin={Data.createdBy.toString() === member._id.toString() ? false : isCommunity} personType="User" adminId={userInfo._id} communityId={Data._id} memberId={member._id} />
+                                    <ProfileCard id={member.id} name={member.name} DBID={member._id} username={member.username} imageUrl={member.image} isAdmin={Data.createdBy.toString() === member._id.toString() ? false : isCommunity} personType="User" adminId={userInfo._id} communityId={Data._id} memberId={member._id} />
                                     {Data.members.length !== (index + 1) ? <span className="w-full h-0.5 bg-dark-4"></span> : <></>}
                                 </>
                             )) : <p className="text-small-regular text-center text-gray-1">No communities found</p>}
                         </div>
                     </TabsContent>
-                
+
                 </Tabs>
 
             </div>

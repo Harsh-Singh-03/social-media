@@ -3,14 +3,15 @@ import { useEffect, useState } from "react"
 import Post from "../Card/Post";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Load from "./Load";
-import { useLoader } from "../ui/LoaderContext";
+import { useCustomHook } from "../ui/LoaderContext";
 
 interface props {
     userInfo: string;
     user: string
 }
 const HomePost = ({ userInfo, user }: props) => {
-    const {ThreadFeed, setThreadFeed}: any = useLoader()
+    // const [ThreadFeed, setThreadFeed] = useState({Data: [], isNext: true, Page: 1})
+    const {ThreadFeed, setThreadFeed, setIsNewThread, isNewThread}: any = useCustomHook()
     const [isLoad, setIsLoad] = useState(true)
 
     const getPosts = async () => {
@@ -33,10 +34,17 @@ const HomePost = ({ userInfo, user }: props) => {
     }
     
     useEffect(() => {
-        if(ThreadFeed.Data.length === 0){
+        if(ThreadFeed.Data.length === 0 && ThreadFeed.isNext === true){
             getPosts()
         }
-    }, [])
+    }, [ThreadFeed])
+
+    useEffect(() => {
+        if(isNewThread === true){
+            setThreadFeed({Data: [], isNext: true, Page: 1})
+            setIsNewThread(false)
+        }
+    }, [isNewThread])
 
     return (
         <InfiniteScroll
@@ -44,11 +52,6 @@ const HomePost = ({ userInfo, user }: props) => {
             next={getPosts}
             hasMore={ThreadFeed.isNext}
             loader={<Load />}
-            endMessage={
-                <p className="text-gray-1 text-small-regular" style={{ textAlign: 'center' }}>
-                    Yay! You have seen it all
-                </p>
-            }
             className="grid place-items-center gap-4 lg:gap-10"
         >
             {ThreadFeed.Data.length === 0 ?

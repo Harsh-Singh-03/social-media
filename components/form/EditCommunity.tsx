@@ -5,7 +5,7 @@ import Image from "next/image"
 import { useState } from "react"
 import { useToast } from "../ui/use-toast"
 import { usePathname, useRouter } from "next/navigation"
-import { useLoader } from "../ui/LoaderContext"
+import { useCustomHook } from "../ui/LoaderContext"
 
 
 interface props {
@@ -18,7 +18,7 @@ interface props {
 const EditCommunity = ({ adminId, name,username, bio,image }: props) => {
     const [communityData, setCommunityData] = useState({ name: name, bio: bio, username:username })
     const [Files, setFiles] = useState([])
-    const { showLoader, hideLoader }: any = useLoader();
+    const { showLoader, hideLoader }: any = useCustomHook();
     const [Img, setImg] = useState(image)
     const { startUpload } = useUploadThing("media")
     const { toast } = useToast()

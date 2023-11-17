@@ -7,27 +7,39 @@ import Pagination from "@/components/Global/Pagination";
 import CommunityCard from "@/components/Card/CommunityCard";
 import UserMenu from "@/components/Global/UserMenu";
 
-const page = async({
+const page = async ({
   searchParams,
 }: {
   searchParams: { [key: string]: string | undefined };
 }) => {
-    const user = await currentUser();
-    if (!user) return null;
-    const userInfo = await fetchUser(user.id)
-    if (!userInfo?.onboarded) redirect("/onboarding")
+  const user = await currentUser();
+  if (!user) return null;
+  const userInfo = await fetchUser(user.id)
+  if (!userInfo?.onboarded) redirect("/onboarding")
 
-    const result = await fetchCommunities({
-      searchString: searchParams.q,
-      pageNumber: searchParams?.page ? +searchParams.page : 1,
-      pageSize: 10,
-    });
-    // console.log(searchParams?.page)
-    return (
+  const result = await fetchCommunities({
+    searchString: searchParams.q,
+    pageNumber: searchParams?.page ? +searchParams.page : 1,
+    pageSize: 10,
+  });
+
+  let chatUser = false;
+  if (userInfo.chatUsers && userInfo.chatUsers.length > 0) {
+    userInfo.chatUsers.forEach((user: any) => {
+      if (user.messageStatus !== 'seen' && user.messageAuthor !== 'Sender') {
+        chatUser = true
+        return;
+      }
+    })
+  } else {
+    chatUser = false
+  }
+  // console.log(searchParams?.page)
+  return (
     <div className="grid place-items-center gap-4 lg:gap-10">
-        <UserMenu avatar={userInfo.image} url={userInfo.id} userId={userInfo._id} />
-        <SearchBar path="/communities" />
-        <section className='grid grid-cols-1 sm:grid-cols-2 gap-4 w-full'>
+      <UserMenu avatar={userInfo.image} url={userInfo.id} userId={userInfo._id} chatUsers={chatUser} />
+      <SearchBar path="/communities" />
+      <section className='grid grid-cols-1 sm:grid-cols-2 gap-4 w-full'>
         {result.communities.length === 0 ? (
           <p className='text-small-regular text-center text-gray-1'>No Communities Found</p>
         ) : (
@@ -46,7 +58,7 @@ const page = async({
           </>
         )}
       </section>
-        <Pagination
+      <Pagination
         path='/communities'
         search={searchParams?.q || undefined}
         pageNumber={searchParams?.page ? +searchParams.page : 1}

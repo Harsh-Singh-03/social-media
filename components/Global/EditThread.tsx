@@ -12,7 +12,7 @@ import { useState } from "react"
 import { useToast } from "../ui/use-toast"
 import { DialogClose } from "@radix-ui/react-dialog"
 import Image from "next/image"
-import { useLoader } from "../ui/LoaderContext"
+import { useCustomHook } from "../ui/LoaderContext"
 
 interface props {
     id: string,
@@ -22,7 +22,7 @@ const EditThread = ({ id, text }: props) => {
     const [textInput, setTextInput] = useState(text)
     const path = usePathname()
     const { toast } = useToast()
-    const { showLoader, hideLoader }: any = useLoader();
+    const { showLoader, hideLoader, setThreadFeed, ThreadFeed, setIsNewThread }: any = useCustomHook();
     const onchange = (e: any) => {
         setTextInput(e.target.value)
     }
@@ -32,9 +32,22 @@ const EditThread = ({ id, text }: props) => {
             showLoader()
             const Data = await editThread(id, textInput, path)
             hideLoader()
-            toast({
-                title: "Thread Updated !!"
-            })
+            if(Data.success === true){
+                if(path === '/'){
+                    const newData = [...ThreadFeed.Data];
+                    newData.map(item =>{
+                        if(item._id === id){
+                            item.text = textInput
+                        }
+                    })
+                    setThreadFeed((prevState: any) => ({ ...prevState, Data: newData }));
+                }else{
+                    setIsNewThread(true)
+                }
+                toast({
+                    title: "Thread Updated !!"
+                })
+            }
 
         }
     }

@@ -17,9 +17,21 @@ const page = async ({ params }: { params: { id: string } }) => {
   const { Data }: any = comData
   if (!Data || Data.createdBy.toString() !== userInfo._id.toString()) redirect('/')
 
+  let chatUser = false;
+  if(userInfo.chatUsers && userInfo.chatUsers.length > 0){
+    userInfo.chatUsers.forEach((user: any) =>{
+      if(user.messageStatus !== 'seen' && user.messageAuthor !== 'Sender' ){
+        chatUser = true
+        return;
+      }
+    })
+  }else{
+    chatUser = false
+  }
+
   return (
     <section className="grid place-items-center gap-6 lg:gap-10">
-      <UserMenu avatar={userInfo.image} url={userInfo.id} userId={userInfo._id} />
+      <UserMenu avatar={userInfo.image} url={userInfo.id} userId={userInfo._id} chatUsers={chatUser} />
       <div className="w-full">
         <Back />
       </div>

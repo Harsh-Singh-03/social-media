@@ -3,7 +3,7 @@
 import { addLike, disLike } from "@/server/actions/thread.actions"
 import Image from "next/image"
 import { useState } from "react"
-import { useLoader } from "../ui/LoaderContext"
+import { useCustomHook } from "../ui/LoaderContext"
 import { useToast } from "../ui/use-toast"
 import { usePathname } from "next/navigation"
 import Link from "next/link"
@@ -17,7 +17,7 @@ interface props{
 }
 const Like = ({threadId, userId, isLiked, likeCount}: props) => {
     const [isLike, setisLike] = useState(isLiked)
-    const {hideLoader, showLoader}: any = useLoader()
+    const {hideLoader, showLoader, setThreadFeed, ThreadFeed, setIsNewThread}: any = useCustomHook()
     const {toast} = useToast()
     const path = usePathname()
 
@@ -28,6 +28,17 @@ const Like = ({threadId, userId, isLiked, likeCount}: props) => {
             hideLoader()
             if(data?.success){
                 setisLike(true)
+                if(path === '/'){
+                    const newData = [...ThreadFeed.Data];
+                    newData.map(item =>{
+                        if(item._id === threadId){
+                            item.likes.push(userId)
+                        }
+                    })
+                    setThreadFeed((prevState: any) => ({ ...prevState, Data: newData }));
+                }else{
+                    setIsNewThread(true)
+                }
                 toast({title: "Post Liked !!"})
             }
         }
@@ -37,6 +48,17 @@ const Like = ({threadId, userId, isLiked, likeCount}: props) => {
             hideLoader()
             if(data?.success){
                 setisLike(false)
+                if(path === '/'){
+                    const newData = [...ThreadFeed.Data];
+                    newData.map(item =>{
+                        if(item._id === threadId){
+                            item.likes =  item.likes.filter((item: string) => item !== userId)
+                        }
+                    })
+                    setThreadFeed((prevState: any) => ({ ...prevState, Data: newData }));
+                }else{
+                    setIsNewThread(true)
+                }
             }
         }
 

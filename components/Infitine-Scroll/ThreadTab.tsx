@@ -3,7 +3,8 @@ import Post from "../Card/Post"
 import { useEffect, useState } from "react"
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Load from "./Load";
-import { useLoader } from "../ui/LoaderContext";
+import { useCustomHook } from "../ui/LoaderContext";
+
 
 interface props {
     currentUserId: string
@@ -16,7 +17,7 @@ const ThreadTab = ({
 
     const [UserFeed, setUserFeed] = useState({ Data: [], isNext: true, Page: 1, name: "", image: "", id: "" });
     const [isLoad, setIsLoad] = useState(true)
-
+    const {isNewThread, setIsNewThread}:any = useCustomHook()
     const getPosts = async () => {
         const response = await fetch(`/api/user-posts`, {
             method: "POST",
@@ -42,8 +43,17 @@ const ThreadTab = ({
     }
 
     useEffect(() => {
-        getPosts()
-    }, [])
+        if(UserFeed.Data.length === 0 && UserFeed.isNext === true){
+            getPosts()
+        }
+    }, [UserFeed.Data])
+
+    useEffect(() => {
+       if(isNewThread === true){
+        // setIsNewThread(false)
+        setUserFeed({ Data: [], isNext: true, Page: 1, name: "", image: "", id: "" })
+       }
+    }, [isNewThread])
 
     return (
         <InfiniteScroll
@@ -51,11 +61,6 @@ const ThreadTab = ({
             next={() => getPosts()}
             hasMore={UserFeed.isNext}
             loader={<Load />}
-            endMessage={
-                <p className="text-gray-1 text-small-regular" style={{ textAlign: 'center' }}>
-                    Yay! You have seen it all
-                </p>
-            }
             className="flex flex-col gap-4 lg:gap-10 mt-6 lg:mt-10"
         >
             {UserFeed.Data && UserFeed.Data.length > 0 ? UserFeed.Data.map((thread: any) => (

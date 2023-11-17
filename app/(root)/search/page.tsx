@@ -17,10 +17,22 @@ const page = async ({
   if (!userInfo?.onboarded) redirect("/onboarding")
 
   const result = await fetchUsers({ userId: user.id, searchString: searchParams?.q, pageNumber: searchParams?.page ? +searchParams.page : 1 })
+
+  let chatUser = false;
+  if (userInfo.chatUsers && userInfo.chatUsers.length > 0) {
+    userInfo.chatUsers.forEach((user: any) => {
+      if (user.messageStatus !== 'seen' && user.messageAuthor !== 'Sender') {
+        chatUser = true
+        return;
+      }
+    })
+  } else {
+    chatUser = false
+  }
   // console.log(result)
   return (
     <div className="grid place-items-center gap-4 lg:gap-10">
-      <UserMenu avatar={userInfo.image} url={userInfo.id} userId={userInfo._id} />
+      <UserMenu avatar={userInfo.image} url={userInfo.id} userId={userInfo._id} chatUsers={chatUser} />
       <SearchBar path="/search" />
       {result?.users.length === 0 ? <p className="text-small-regular text-center text-gray-1">No User Found</p> :
         result?.users.map((person, index) => {
@@ -28,6 +40,7 @@ const page = async ({
             <>
               <ProfileCard
                 key={person.id}
+                DBID={person._id}
                 id={person.id}
                 name={person.name}
                 username={person.username}

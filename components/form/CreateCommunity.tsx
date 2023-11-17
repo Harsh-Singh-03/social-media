@@ -7,7 +7,7 @@ import { useToast } from "../ui/use-toast"
 import { DialogFooter } from "../ui/dialog"
 import { DialogClose } from "@radix-ui/react-dialog"
 import { usePathname } from "next/navigation"
-import { useLoader } from "../ui/LoaderContext"
+import { useCustomHook } from "../ui/LoaderContext"
 
 
 interface props {
@@ -16,7 +16,7 @@ interface props {
 const CreateCommunity = ({ userId }: props) => {
     const [communityData, setCommunityData] = useState({ name: "", bio: "", username: "" })
     const [Files, setFiles] = useState([])
-    const { showLoader, hideLoader }: any = useLoader();
+    const { showLoader, hideLoader }: any = useCustomHook();
     const [Img, setImg] = useState('/assets/community.svg')
     const { startUpload } = useUploadThing("media")
     const { toast } = useToast()

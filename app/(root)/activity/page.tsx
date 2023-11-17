@@ -11,10 +11,22 @@ const page = async () => {
   const userInfo = await fetchUser(user.id)
   if (!userInfo?.onboarded) redirect("/onboarding")
   const notification = await getActivity(userInfo._id)
+
+  let chatUser = false;
+  if(userInfo.chatUsers && userInfo.chatUsers.length > 0){
+    userInfo.chatUsers.forEach((user: any) =>{
+      if(user.messageStatus !== 'seen' && user.messageAuthor !== 'Sender' ){
+        chatUser = true
+        return;
+      }
+    })
+  }else{
+    chatUser = false
+  }
   // console.log(notification)
   return (
     <section className="grid place-items-left gap-4 lg:gap-6 w-full">
-      <UserMenu avatar={userInfo.image} url={userInfo.id} userId={userInfo._id} />
+      <UserMenu avatar={userInfo.image} url={userInfo.id} userId={userInfo._id} chatUsers={chatUser} />
       {notification && notification.length > 0 ?
         <>
           {notification.map((activity) => (

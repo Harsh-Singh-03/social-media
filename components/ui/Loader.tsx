@@ -1,10 +1,10 @@
 // components/Loader.js
 "use client"
-import { useLoader } from "./LoaderContext";
+import { useCustomHook } from "./LoaderContext";
 
 const Loader = () => {
 
-const { loaderActive }: any = useLoader();
+const { loaderActive }: any = useCustomHook();
 
   return (
     <div className={`${loaderActive === false ? "hidden": "grid"} place-items-center fixed top-0 left-0 w-screen h-screen bg-dark-4/90 z-50`}>

@@ -166,3 +166,43 @@
     60%{background-position:0%  50%, 50% 100%,100%   0%}
     80%{background-position:0%  50%, 50%  50%,100% 100%}
 }
+.fade-in-animation{
+  animation:fade-in 1s infinite ease-in-out;
+}
+.animation-top-class{
+  animation:fade-in-top 0.2s 1 linear;
+}
+.chat-dot::after{
+  content: '';
+  position: absolute;
+  top: 12px;
+  right: 0px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #877EFF;
+  z-index: 1;
+  animation:fade-in-scale 1s infinite ease-in-out;
+}
+@keyframes fade-in {
+  0%{opacity: 0;}
+  100%{opacity: 1;}
+}
+@keyframes fade-in-scale {
+  0%{opacity: 0.3; transform: scale(0.5);}
+  100%{opacity: 1; transform: scale(1.2);}
+}
+@keyframes fade-in-top {
+  0%{opacity: 0.3; transform: translateY(-20px);}
+  100%{opacity: 1; transform: translateY(0px);}
+}
+
+.infinite-scroll-component__outerdiv{
+  width: 100%;
+}
+@media (min-width: 768px){
+  .chat-container{
+    max-width: calc(100% - 112px);
+  }
+}
+

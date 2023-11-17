@@ -18,9 +18,21 @@ const page = async ({ params }: { params: { id: string } }) => {
     const mainThreadId = Thread.parentId ? Thread.parentId : params.id
     const commentId = Thread.parentCommentId ? Thread.parentCommentId : params.id
     const isReply = mainThreadId === commentId ? false : true
+
+    let chatUser = false;
+    if (userInfo.chatUsers && userInfo.chatUsers.length > 0) {
+      userInfo.chatUsers.forEach((user: any) => {
+        if (user.messageStatus !== 'seen' && user.messageAuthor !== 'Sender') {
+          chatUser = true
+          return;
+        }
+      })
+    } else {
+      chatUser = false
+    }
     return (
         <div className="grid place-items-center gap-4 lg:gap-10">
-            <UserMenu avatar={userInfo.image} url={userInfo.id} userId={userInfo._id}/>
+            <UserMenu avatar={userInfo.image} url={userInfo.id} userId={userInfo._id} chatUsers={chatUser} />
             <div className="w-full">
                 <Back />
             </div>
