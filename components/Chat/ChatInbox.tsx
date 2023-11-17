@@ -123,7 +123,7 @@ const ChatInbox = ({ currentUserId, chatUser, image }: props) => {
 
 
     return (
-        <div className="flex-1 flex flex-col-reverse gap-2 max-h-full overflow-y-scroll custom-scrollbar px-4">
+        <div className="flex-1 flex flex-col-reverse gap-2 max-h-full overflow-y-scroll custom-scrollbar px-4 mb-20 lg:mb-0">
             {Message.map((msg: any, index: number) => {
                 const isCurrentUser = msg.sender === chatUser
                 const hasNextMessageFromSameUser = Message[index - 1]?.sender === Message[index]?.sender
@@ -172,7 +172,7 @@ const ChatInbox = ({ currentUserId, chatUser, image }: props) => {
                     </div>
                 )
             })}
-            <div id="last-div" ref={ref} className="text-light-1 opacity-0 h-1">hi</div>
+            <div id="last-div" ref={ref} className="text-light-1 opacity-0 h-2">hi</div>
             {loading && <Load />}
             <audio ref={sendRef} className="hidden">
                 <source src='/sounds/send.mp3' type="audio/mp3" />

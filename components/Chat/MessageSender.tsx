@@ -152,7 +152,7 @@ const MessageSender = ({ userId, chatUser }: props) => {
   
 
   return (
-    <div className="px-3 pb-3 lg:p-4 lg:bg-dark-2">
+    <div className="px-3 pb-3 lg:p-4 lg:bg-dark-2 bottom-chat">
       {recordingStatus === 'inactive' ? (
         <div className="flex items-center gap-1 bg-dark-3 rounded-full px-3 lg:px-4">
           <input type="text" value={Message} className="input w-full bg-transparent py-6 text-small-regular outline-none" onChange={(e: any) => setmessage(e.target.value)} placeholder="Type a message..." required />
