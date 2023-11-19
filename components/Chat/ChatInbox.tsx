@@ -123,7 +123,7 @@ const ChatInbox = ({ currentUserId, chatUser, image }: props) => {
 
 
     return (
-        <div className="flex-1 flex flex-col-reverse gap-2 max-h-full overflow-y-scroll custom-scrollbar px-4 mb-20 lg:mb-0">
+        <div className="flex-1 flex flex-col-reverse gap-2 max-h-full overflow-y-scroll custom-scrollbar px-4 mb-32 lg:mb-0">
             {Message.map((msg: any, index: number) => {
                 const isCurrentUser = msg.sender === chatUser
                 const hasNextMessageFromSameUser = Message[index - 1]?.sender === Message[index]?.sender
@@ -144,7 +144,7 @@ const ChatInbox = ({ currentUserId, chatUser, image }: props) => {
                                 )}
                                 {msg.contentType === 'Image' && (
                                     // <span className="text-light-1 text-small-regular flex-1">{msg.content}</span>
-                                    <div className="w-full h-auto max-w-[240px] relative">
+                                    <div className="w-full min-w-[200px] h-auto max-w-[240px] relative">
                                         <Image src={msg.content} alt="file" width={200} height={200} className={`w-full h-full object-contain rounded-xl ${msg.messageStatus === 'initial' && 'blur-sm opacity-60'}`} />
                                         {msg.messageStatus === 'initial' && (
                                             <div className="absolute w-full h-full left-0 top-0 grid place-items-center">

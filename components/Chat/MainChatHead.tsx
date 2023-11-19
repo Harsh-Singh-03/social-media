@@ -1,14 +1,18 @@
 "use client"
 import { useChatHook } from "@/Context/ChatContext";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface props {
     name: string;
     image: string;
+    chatUser: string
 }
-const MainChatHead = ({ name, image }: props) => {
+const MainChatHead = ({ name, image, chatUser }: props) => {
     const [isSearchDisplay, setIsSearchDisplay] = useState(false)
+    const router = useRouter()
     const { searchString, setSearchString, setMessage, setPage }: any = useChatHook()
     const handleSubmit = (e: any) => {
         e.preventDefault()
@@ -20,9 +24,10 @@ const MainChatHead = ({ name, image }: props) => {
             {isSearchDisplay === false ? (
                 <>
                     <div className="flex items-center gap-4">
-                        <div className="profile-img-box w-11 h-11">
+                        <Image src='/assets/left-arrow.svg' alt="back" width={24} height={24} className="block lg:hidden object-contain cursor-pointer mr-2" onClick={() => router.back()} />
+                        <Link href={`/profile/${chatUser}`} className="profile-img-box w-11 h-11">
                             <Image src={image} alt="logo" className="rounded-full object-cover shadow-md" fill />
-                        </div>
+                        </Link>
                         <div className="mt-1">
                             <h2 className='text-light-1 text-base-semibold tracking-wider'>
                                 {name}

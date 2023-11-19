@@ -15,7 +15,7 @@ const page = async({ params }: { params: { id: string } }) => {
   return (
     <div className="flex w-full overflow-x-hidden">
       <ChatSideBar username={user?.username} paramsId={params.id} avatar={userInfo.image} userId={user.id} userDbId={userInfo._id} />
-      <MainChat currentUserId={userInfo._id} chatUserId={params.id} image={result?.Data.image} name={result?.Data.name}  />
+      <MainChat currentUserId={userInfo._id} chatUserId={params.id} image={result?.Data.image} name={result?.Data.name} chatUserProfileId={result?.Data.id}  />
     </div>
   )
 }
