@@ -75,9 +75,10 @@ const MessageSender = ({ userId, chatUser }: props) => {
     e.preventDefault()
     if (Message && Message.length > 0) {
       setMessage((prev: any) => [{ _id: 'new-message', sender: userId, content: Message, messageStatus: 'initial', contentType: 'Text', receiver: '' }, ...prev])
+      setmessage('')
       const data = await sendMessage(userId, chatUser, Message, 'Text')
       if (data?.success) {
-        setmessage('')
+        
       }
     }
   }
