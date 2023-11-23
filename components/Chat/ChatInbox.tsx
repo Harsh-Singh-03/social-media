@@ -8,13 +8,15 @@ import Image from "next/image";
 import { useChatHook } from "@/Context/ChatContext";
 import { usePathname } from "next/navigation";
 import AudioPlayer from "./AudioPlayer";
+import Link from "next/link";
 
 interface props {
     currentUserId: string;
     chatUser: string;
-    image: string
+    image: string;
+    profileId: string
 }
-const ChatInbox = ({ currentUserId, chatUser, image }: props) => {
+const ChatInbox = ({ currentUserId, chatUser, image, profileId }: props) => {
     const { Message, setMessage, setLoading, loading, page, setPage, isNext, setIsNext,searchString, setSearchString }: any = useChatHook()
     const path = usePathname()
     const sendRef: any = useRef(null)
@@ -131,9 +133,9 @@ const ChatInbox = ({ currentUserId, chatUser, image }: props) => {
                 return (
                     <div className="flex gap-2 items-end" key={index}>
                         {isCurrentUser === true && hasNextMessageFromSameUser === false && (
-                            <div className=" cursor-pointer">
+                            <Link href={`/profile/${profileId}`} className=" cursor-pointer">
                                 <Image src={image} alt="profile" width={24} height={24} className="rounded-full object-cover" />
-                            </div>
+                            </Link>
                         )}
                         <div key={index} className={`flex w-full ${msg.sender.toString() === currentUserId.toString() ? 'justify-end' : 'justify-start'} ${isCurrentUser === true && hasNextMessageFromSameUser === true ? 'ml-8' : ""}`} >
 

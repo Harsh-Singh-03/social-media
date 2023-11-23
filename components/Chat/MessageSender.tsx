@@ -82,9 +82,11 @@ const MessageSender = ({ userId, chatUser }: props) => {
       }
     }
   }
+
   const fileOpen = () => {
     document.getElementById("fileOpen")?.click()
   }
+
   const startRecording = async () => {
     if ("MediaRecorder" in window) {
       try {
@@ -142,7 +144,7 @@ const MessageSender = ({ userId, chatUser }: props) => {
       }
     }
     setAudioChunks([]);
-  };
+  }
 
   const deleteRecording = () =>{
     setRecordingStatus('inactive')
