@@ -4,10 +4,10 @@ import PusherServer from 'pusher'
 import PusherClient from 'pusher-js'
 
 export const pusherServer = new PusherServer({
-  appId: "1688548",
-  key: "4a2fb5109938d987e2e9",
-  secret: "265270d7aef447123fba",
-  cluster: "ap2",
+  appId: `${process.env.CHAT_APP_ID}`,
+  key: `${process.env.CHAT_KEY}`,
+  secret: `${process.env.CHAT_SECRET}`,
+  cluster: `${process.env.CHAT_CLUSTER}`,
   useTLS: true
 });
 
